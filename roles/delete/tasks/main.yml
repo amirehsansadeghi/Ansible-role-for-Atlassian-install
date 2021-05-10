@@ -1,0 +1,13 @@
+---
+
+- name: 'remove packages: {{ packages_to_remove }}'
+  apt:
+    name: '{{ item }}'
+    state: absent
+  with_items: '{{ packages_to_remove }}'
+
+- name: "remove binaries: {{ packages_to_download }}"
+  file:
+    path: /opt/{{ item.name }}*
+    state: absent
+  with_items: '{{ packages_to_download }}'

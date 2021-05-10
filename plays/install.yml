@@ -1,0 +1,25 @@
+---
+
+- hosts: atlasian
+  roles:
+    - { role: prepare }
+
+- hosts: atlasian
+  roles:
+    - { role: add-user }
+
+- hosts: atlasian
+  roles:
+    - { role: download-binaries }
+
+- hosts: atlasian
+  roles:
+    - { role: configuration }
+
+- hosts: atlasian
+  roles:
+    - { role: db-config}
+
+- hosts: atlasian
+  roles:
+    - { role: jdbc-driver}

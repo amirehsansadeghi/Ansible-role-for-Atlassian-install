@@ -1,0 +1,27 @@
+---
+# configuration files from:https://confluence.atlassian.com/jirakb/starting-jira-automatically-on-linux-828796713.html
+
+- name: "define the jira home directory"
+  template:
+    src: jira-application.properties.j2
+    dest: /opt/atlassian/{{ item.name }}-standalone/atlassian-jira/WEB-INF/classes/jira-application.properties
+    owner: jira
+    group: atlassian
+    mode: 0664
+  with_items: "{{ packages_to_download }}"
+
+- name: create the service script
+  template:
+    src: jira.service.j2
+    dest: /usr/lib/systemd/system/jira.service
+    mode: 0664
+
+- name: make the init.d script for service start automation
+  template:
+    src: jira.j2
+    dest: /etc/init.d/jira
+    mode: 0664
+
+- name: add jira to chkconfig
+  shell: sudo /sbin/chkconfig --add jira
+

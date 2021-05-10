@@ -1,0 +1,49 @@
+base_packages_to_install:
+    - java-1.8.0-openjdk-devel
+    - python
+    - https://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+    - mysql-community-server
+
+packages_to_remove:
+    - java-11-openjdk-devel
+    - https://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+    - mysql-community-server
+
+packages_to_download:
+  - jira:
+      name: atlassian-jira-core-8.16.1
+      url: https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-core-8.16.1.tar.gz
+  - confluence:  
+      name: atlassian-confluence-7.12.0
+      url: https://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-7.12.0.tar.gz
+  - bitbucket:    
+      name: atlassian-bitbucket-7.12.1
+      url: https://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-7.12.1.tar.gz
+users:
+    - uid: 1001
+      name: jira
+      group: atlassian
+      shell: /bin/bash
+    - uid: 1002
+      name: confluence
+      group: atlassian
+      shell: /bin/bash
+    - uid: 1003
+      name: bitbucket
+      group: atlassian
+      shell: /bin/bash
+
+groups:
+    - gid: 1122
+      name: atlassian
+    
+mysql_users:
+  # Section of jira username and password
+    - name: USERNAME
+      password: PASSWORD
+  # Section of Confluence username and password 
+    - name: USERNAME
+      password: PASSWORD
+  # Section of Bitbucket username and password 
+    - name: USERNAME
+      password: PASSWORD

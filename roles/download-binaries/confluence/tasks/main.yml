@@ -1,0 +1,20 @@
+---
+
+- name: download binary packages
+  get_url:
+    url: "{{ item.url }}"
+    dest: /opt/atlassian/{{ item.name }}.tar.gz
+with_items: "{{ packages_to_download.conflunce }}"
+
+- name: extract the packages
+  unarchive:
+    src: /opt/atlassian/{{ item.name }}.tar.gz
+    dest: /opt/atlassian/
+    copy: no
+  with_items: "{{ packages_to_download.confluence }}"
+
+- name: create home directory
+  file:
+    path: /var/atlassian/{{ item.name }}
+    state: directory
+  with_items: "{{ packages_to_download.confluence }}"

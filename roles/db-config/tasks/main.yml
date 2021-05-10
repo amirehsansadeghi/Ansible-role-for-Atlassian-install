@@ -1,0 +1,61 @@
+# installation of mysql
+- name: install mysql repo
+    yum:
+      name: https://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+      state: present
+      enablerepo: "epel"
+    register: rh_mysql
+
+  - name: MySQL python
+    yum:
+      name: MySQL-python
+      state: present
+      enablerepo: "epel"
+
+  - name: install mysql
+    yum:
+      name: mysql-community-server
+      state: present
+    register: mysql_install
+
+  - name: start mysql service
+    service:
+      name: mysql
+      state: started
+      enabled: true
+
+  - name: update mysql root pass
+    mysql_user:
+     name: root
+      host: localhost
+      password: ""
+      login_user: root
+      login_password: "1"
+      check_implicit_admin: yes
+      priv: "*.*:ALL,GRANT"
+    when: mysql_install.changed
+
+ - name: create database
+    mysql_db:
+      name: jiradb
+      state: present
+      login_user: root
+      login_password: 123
+
+  - name: create db user
+    mysql_user:
+      name: {{ item.name }}
+      password: "{{ lookup('password', '/home/mysql_passwords length=256') }}"
+      priv: "jiradb.*:ALL,GRANT"
+      host: localhost
+      state: present
+      login_user: root
+      login_password: 123
+
+  - name: copy password file to remote host
+    copy:
+      src: /home/mysql_passwords
+      dest: /home/mysql_pass
+      
+ 
+

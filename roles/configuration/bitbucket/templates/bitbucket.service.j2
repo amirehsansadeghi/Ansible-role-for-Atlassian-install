@@ -1,0 +1,12 @@
+[Unit]
+Description=Atlassian Bitbucket Server Service
+After=syslog.target network.target
+ 
+[Service]
+Type=forking
+User=bitbucket
+ExecStart=/opt/atlassian/atlassian-bitbucket-6.7.1/bin/start-bitbucket.sh
+ExecStop=/opt/atlassian/atlassian-bitbucket-6.7.1/bin/stop-bitbucket.sh
+ 
+[Install]
+WantedBy=multi-user.target

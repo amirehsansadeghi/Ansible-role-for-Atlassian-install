@@ -1,0 +1,13 @@
+[atlassian_jira]
+jira.mydomain.local
+
+[atlassian_confluence]
+confluence.mydomain.local
+
+[atlassian_bitbucket]
+bitbucket.mydomain.local
+
+[atlassian:children]
+atlassian_jira
+atlassian_confluence
+atlassian_bitbucket

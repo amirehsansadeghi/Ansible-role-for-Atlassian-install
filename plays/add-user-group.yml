@@ -1,0 +1,6 @@
+---
+
+- hosts: atlassian
+  roles:
+    - { role: add-user-group }
+

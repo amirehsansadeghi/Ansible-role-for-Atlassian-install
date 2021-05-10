@@ -1,0 +1,28 @@
+---
+# configuration files from:
+# https://confluence.atlassian.com/confkb/run-confluence-as-a-systemd-service-on-linux-937177781.html
+
+- name: "define the bitbucket home directory"
+  template:
+    src: set-bitbucket-home.sh.j2
+    dest: /opt/atlassian/{{ item.name }}/bin/set-bitbucket-home.sh
+    owner: bitbucket
+    group: atlassian
+    mode: 0664
+  with_items: "{{ packages_to_download }}"
+
+- name: create the service script
+  template:
+    src: bitbucket.service.j2
+    dest: /usr/lib/systemd/system/bitbucket.service
+    mode: 0664
+
+- name: make the init.d script for service start automation
+  template:
+    src: bitbucket.j2
+    dest: /etc/init.d/bitbucket
+    mode: 0664
+
+- name: add bitbucket to chkconfig
+  shell: chkconfig --add bitbucket --level 0356
+

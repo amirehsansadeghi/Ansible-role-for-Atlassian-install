@@ -1,0 +1,22 @@
+---
+- name: Add the group with a specific gid
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
+  with_items: "{{ groups }}"
+
+- name: Add the user with a specific uid and a gid
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    shell: "{{ item.shell }}"
+    group: "{{ item.group }}"
+  with_items: "{{ users }}"
+
+- name: ansible create directory for atlassian softwares
+  file:
+    path: "/opt/atlassian/{{ item.name }}"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.group }}"
+  with_items: "{{ users }}"

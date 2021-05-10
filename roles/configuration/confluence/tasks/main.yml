@@ -1,0 +1,29 @@
+---
+# configuration files from:
+# https://confluence.atlassian.com/doc/start-confluence-automatically-on-linux-183148.html
+# https://confluence.atlassian.com/confkb/run-confluence-as-a-systemd-service-on-linux-937177781.html
+
+- name: "define the confluence home directory"
+  template:
+    src: confluence-init.properties.j2
+    dest: /opt/atlassian/{{ item.name }}/confluence/WEB-INF/classes/confluence-init.properties
+    owner: confluence
+    group: atlassian
+    mode: 0664
+  with_items: "{{ packages_to_download }}"
+
+- name: create the service script
+  template:
+    src: confluence.service.j2
+    dest: /usr/lib/systemd/system/confluence.service
+    mode: 0664
+
+- name: make the init.d script for service start automation
+  template:
+    src: confluence.j2
+    dest: /etc/init.d/confluence
+    mode: 0664
+
+- name: add confluence to chkconfig
+  shell: sudo chkconfig --add confluence
+
